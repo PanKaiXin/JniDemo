@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        release {
+            storeFile file('C:/Users/Administrator/.android/lizhangqu.keystore')
+            keyAlias 'lizhangqu'
+            keyPassword 'lizhangqu'
+            storePassword 'lizhangqu'
+        }
+    }
+    compileSdkVersion 21
+    buildToolsVersion "22.0.1"
+    defaultConfig {
+        ndk {
+            moduleName "Test"
+        }
+        applicationId "cn.edu.zafu.jnidemo"
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+
+    }
+    productFlavors {
+        x86 {
+            versionCode Integer.parseInt("6" + defaultConfig.versionCode)
+            ndk {
+                abiFilter "x86"
+            }
+        }
+        mips {
+            versionCode Integer.parseInt("4" + defaultConfig.versionCode)
+            ndk {
+                abiFilter "mips"
+            }
+        }
+        armv7 {
+            versionCode Integer.parseInt("2" + defaultConfig.versionCode)
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+        }
+        arm {
+            versionCode Integer.parseInt("1" + defaultConfig.versionCode)
+            ndk {
+                abiFilters "armeabi", "armeabi-v7a"
+            }
+            signingConfig signingConfigs.release
+        }
+        fat
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+}
